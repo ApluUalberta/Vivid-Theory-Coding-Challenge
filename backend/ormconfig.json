@@ -1,0 +1,12 @@
+{
+    "type": "postgres",
+    "host": "smarthomes.postgres.database.azure.com",
+    "port": 5432,
+    "username": "smarthomesdashboarduser@smarthomes",
+    "password": "b5zT;q_fS\\aAUtpD",
+    "database": "wattage",
+    "ssl": true,
+    "autoLoadEntities": true,
+    "synchronize": true,
+    "logging": true
+}
