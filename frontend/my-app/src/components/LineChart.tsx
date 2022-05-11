@@ -10,6 +10,8 @@ import UseDeviceIDGroups from '../hooks/UseDeviceIDGroups';
 import UseDeviceID from '../hooks/UseDeviceID';
 
 import FormatAggregateReadings from '../formatting/FormatAggregateReadings';
+import FormatStandardAggregateReadings from '../formatting/FormatStandardAggregateReadings';
+import FormatUseDeviceID from '../formatting/FormatUseDeviceID';
 // Dropdown should be ALL, then others.
 // Dropdown id should be ALL, then others.
 
@@ -41,6 +43,7 @@ function LineChart(){
       ]*/
     const [serialNumber,setSerial_Number] = useState("All");
     const [deviceID,setdeviceID] = useState("All");
+    const [noReadingsForDeviceID, setNoReadingsForDeviceID] = useState(false);
 
     const [serialNumberGroups, setserialNumberGroups] = useState<String[]>([]);
     const [deviceIDList, setdeviceIDList] = useState<String[]>([]);
@@ -75,18 +78,25 @@ function LineChart(){
           // call readings
           listOfReadings.push(await UseAggregateReadings(obj));
         }
-        console.log(listOfReadings);
-
         setLineData( FormatAggregateReadings(serialNumberGroups, listOfReadings));
-
       }else if (serialNumber != "All" && deviceID == "All"){
-        // call readings
-
+        // call readings with the state variable
+        const readings = await UseAggregateReadings(serialNumber);
+        setLineData(FormatStandardAggregateReadings(serialNumber,readings));
 
       }else if (serialNumber != "All" && deviceID != "All"){
         // call UseDeviceID
+        const readingsByIDandSerial = await UseDeviceID(serialNumber,deviceID);
+        if (readingsByIDandSerial.length != 0){
+          setLineData(FormatUseDeviceID(serialNumber,readingsByIDandSerial));
+          setNoReadingsForDeviceID(false);
+        }else{
+          setNoReadingsForDeviceID(true);
+        }
+
       }
     }
+
 
     async function changeSerialNumber(e: any) {
       setSerial_Number(e.target.value);
@@ -145,6 +155,13 @@ function LineChart(){
                   </select>
                 </div>
 
+              }
+              {
+                noReadingsForDeviceID ? 
+                <div>
+                  <h1> That device ID has no readings!</h1>
+                </div>
+                   : <div></div>
               }
         </div>
       </div>  
