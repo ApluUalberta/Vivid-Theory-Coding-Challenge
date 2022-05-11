@@ -14,7 +14,7 @@ body {
 }
 
 .dropdown {
-    width: 400px;
+    width: 150px;
     margin: 100px auto;
 }
 
@@ -31,14 +31,13 @@ body {
 
 .dropdown .dropdown-content {
     position: absolute;
-    top: 110%;
-    left: 0;
-    padding: 10px;
+    top: 72%;
+    padding:10px;
+    align-items: center;
     background: #fff;
     box-shadow: 3px 3px 10px 6px rgba(0,0,0,0.06);
     font-weight:500;
     color:#333;
-    width: 95%;
 }
 .dropdown .dropdown-content .dropdown-item {
     padding: 10px;

@@ -3,9 +3,9 @@ import axios from 'axios';
 export default async function UseDeviceIDGroups(Serial_Number: String){
     const DEVICE_GROUP = `
     {
-    deviceidgroups(Serial_Number: ${Serial_Number}){
-        Device_ID
-    }
+        deviceidgroups(Serial_Number: "${Serial_Number}"){
+            Device_ID
+        }
     }
     `
 
@@ -14,11 +14,7 @@ export default async function UseDeviceIDGroups(Serial_Number: String){
             query: DEVICE_GROUP
         }
     );
-
-    
     const deviceIDList = queryResult.data.data.deviceidgroups;
-    console.log(deviceIDList);
-
     return deviceIDList;
   }
   

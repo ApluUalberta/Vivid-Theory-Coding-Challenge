@@ -4,7 +4,7 @@ import axios from 'axios';
 export default async function UseDeviceID(Serial_Number: String, Device_ID: String){
     const DEVICE_ID = `
     {
-    deviceid(Serial_Number: ${Serial_Number}, Device_ID: ${Device_ID}){
+    deviceid(Serial_Number: "${Serial_Number}", Device_ID: "${Device_ID}"){
         Serial_Number
         DateTime
         Device_ID
@@ -20,7 +20,6 @@ export default async function UseDeviceID(Serial_Number: String, Device_ID: Stri
     );
 
     const deviceIDList = queryResult.data.data.deviceid;
-    console.log(deviceIDList);
 
 
     return deviceIDList;

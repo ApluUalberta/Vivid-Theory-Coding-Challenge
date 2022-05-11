@@ -6,9 +6,9 @@ export default async function UseSerialNumGroups(){
 
     const SERIAL_NUMBERS = `
     {
-    serialnumbergroups(LIMIT: 10){
-        Serial_Number
-    }
+        serialnumbergroups(LIMIT: 10){
+            Serial_Number
+        }
     }
     `
     const queryResult = await axios.post(

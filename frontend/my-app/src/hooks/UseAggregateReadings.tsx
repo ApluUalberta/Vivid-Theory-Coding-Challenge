@@ -7,7 +7,7 @@ export default async function UseAggregateReadings(Serial_Number:String) {
 
     const AGGREGATE_READINGS = `
     {
-    reading(Serial_Number: ${Serial_Number}){
+    reading(Serial_Number: "${Serial_Number}"){
         Serial_Number
         DateTime
         Device_ID
@@ -23,7 +23,6 @@ export default async function UseAggregateReadings(Serial_Number:String) {
     );
 
     const AggregateReadings = queryResult.data.data.reading;
-    console.log(AggregateReadings);
   
     return AggregateReadings;
   }

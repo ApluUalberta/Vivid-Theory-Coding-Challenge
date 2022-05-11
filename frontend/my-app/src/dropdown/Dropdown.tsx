@@ -1,20 +1,21 @@
 import {useState} from "react";
 // Should just accept a list of strings (for our use cases, the Device IDs and serial numbers)
-function Dropdown(options: any[]) {
+import "./styles.css";
+const Dropdown = (props: any) => {
     const [isActive, setIsActive] = useState(false);
-    const [selected, setSelected] = useState("");
+    const [selected, setSelected] = useState("Choose One (Click me)");
     return (
         <div className="dropdown">
             <div className="dropdown-btn" onClick={(e) =>
             setIsActive(!isActive)}>
-                Choose One
+                {selected}
                 <span className="fas fa-caret-down"></span>
             </div>
             {isActive && (
             <div className="dropdown-content">
-                {options.map((option) => (
+                {props.options.map((option: String) => (
                     <div onClick={(e) => {
-                        
+
                             setSelected(String(option))
                             setIsActive(false)
                             }
