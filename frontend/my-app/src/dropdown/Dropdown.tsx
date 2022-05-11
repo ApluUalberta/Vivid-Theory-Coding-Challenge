@@ -14,6 +14,7 @@ function Dropdown(options: any[]) {
             <div className="dropdown-content">
                 {options.map((option) => (
                     <div onClick={(e) => {
+                        
                             setSelected(String(option))
                             setIsActive(false)
                             }

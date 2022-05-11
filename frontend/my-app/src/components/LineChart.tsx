@@ -40,7 +40,7 @@ function LineChart(){
     const [serialNumber,setSerial_Number] = useState("M708000111");
     const [deviceID,setdeviceID] = useState("");
 
-    const [serialNumberGroups, setserialNumberGroups] = useState([]);
+    const [serialNumberGroups, setserialNumberGroups] = useState<String[]>([]);
     const [deviceIDList, setdeviceIDList] = useState([]);
     const [LineData, setLineData] = useState([]);
     useEffect(() => {
@@ -56,7 +56,14 @@ function LineChart(){
         (async () => {
           const serialNumberGroupies = await UseSerialNumGroups();
           // turn list of json into list of
-          setserialNumberGroups(serialNumberGroupies);
+          const stringListSerialNumberGroupies: string[] = ["All"];
+          for(var i = 0; i < serialNumberGroupies.length; i++) {
+            var obj = serialNumberGroupies[i];
+        
+            stringListSerialNumberGroupies.push(obj.Serial_Number);
+          }
+          setserialNumberGroups(stringListSerialNumberGroupies);
+          console.log(serialNumberGroups);
         })();
     },[serialNumberGroups]);
 
