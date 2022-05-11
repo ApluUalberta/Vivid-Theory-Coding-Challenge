@@ -1,7 +1,71 @@
 
 # Smart Homes Data Visualization
 
-# Introduction
+## Dependencies:
+```
+- An existing version of Node on your system (v16.13.0)
+- An existing installation of npm on your system (v8.9.0)
+```
+## Deployment:
+### Step 1: Clone the repository and go into the directory
+```
+$ git clone https://github.com/ApluUalberta/Vivid-Theory-Coding-Challenge 
+$ cd Vivid-Theory-Coding-Challenge
+
+# (private repository, only relevant users were given access)
+```
+### Step 2: Initialize the backend
+#### Open up a terminal and run the following commands
+```
+# Assuming you are in /Vivid-Theory-Coding-Challenge
+$ cd backend
+$ npm i
+$ npm start
+
+```
+#### The backend should have the following url: http://127.0.0.1:4000/graphql
+
+### Step 3: Initialize the Frontend
+#### Open up another terminal and run the following commands
+```
+# Assuming you are in /Vivid-Theory-Coding-Challenge
+$ cd frontend
+$ npm i
+$ cd my-app
+$ npm i
+$ npm start
+```
+#### The frontend should have the following url: http://localhost:3000/
+
+### Step 4: Usage
+1. Upon first entering the site, you should see this:
+![Home page](./docpics/homepage.PNG)
+2. Using Serial number, you can access the drop down menu for any specific smart home serial number:
+   
+![filtering serial page](./docpics/filterserial.PNG)
+
+3. Let's try M708000111. We now see all aggregate readings (regardless of device ID for the given serial num, as shown by the combination of dropdown menus):
+![Aggregate readings page](./docpics/AggregateReadings.PNG)
+
+4. Let's try selecting a specific Device ID (9e40878db). This is a query for a specific device ID and specific serial number. The bottom left dropdown and the legend shows the specific device id
+![Specific Serial number and device id](./docpics/specificReadings.PNG)
+
+5. Circling back, lets select ALL serial numbers to get aggregate readings:
+![All smarthomes](./docpics/Allreadings.PNG)
+
+## Things to note for optimization and improvement
+- The application queries the database for readings every time, these could easily be stored into a cache
+- There was an unused query called average_wattage that was meant to get the average aggregate wattage consumption for every smart home. This was meant to be used for a piechart
+  - This was dropped due to not knowing how to query for generated AVG() columns through sql using graphql's querying system. (Likely incompetence)
+- The aggregation of all smarthomes was dohne using a hardcoded 100 value (since this was programmed into the sql queries).
+- Styling could use some improvement.
+- Some packages, such as apollo client are unused and can be trimmed
+- Deployment issues have been run into, probably get that done soon!
+
+# Assignment specifications as stated by Vivid Theory:
+###
+
+## Introduction
 
 The purpose of this assignment is to evaluate your full stack application development skills. Principles and best practices of front end design, responsive components, DRY, client server model, git-flow, user experience, and page performance will all be tested.
 
