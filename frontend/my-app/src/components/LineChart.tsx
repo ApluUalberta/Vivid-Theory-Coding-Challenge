@@ -41,6 +41,8 @@ function LineChart(){
         [6, 11, 3],
         [7, 27, 19],
       ]*/
+
+    
     const [serialNumber,setSerial_Number] = useState("All");
     const [deviceID,setdeviceID] = useState("All");
     const [noReadingsForDeviceID, setNoReadingsForDeviceID] = useState(false);
@@ -63,6 +65,15 @@ function LineChart(){
         })();
     },[serialNumberGroups]);
 
+
+    useEffect(() => {
+      // Set the default id list
+      (async () => {
+        getDeviceIDs();
+
+      })();
+      queryReadings();
+  },[serialNumber,deviceID]);
     async function queryReadings(){
       // based on the serial and device id combinations, we query
       // Cases: All serial numbers (aggregate readings)
@@ -79,6 +90,7 @@ function LineChart(){
           listOfReadings.push(await UseAggregateReadings(obj));
         }
         setLineData( FormatAggregateReadings(serialNumberGroups, listOfReadings));
+
       }else if (serialNumber != "All" && deviceID == "All"){
         // call readings with the state variable
         const readings = await UseAggregateReadings(serialNumber);
@@ -88,7 +100,7 @@ function LineChart(){
         // call UseDeviceID
         const readingsByIDandSerial = await UseDeviceID(serialNumber,deviceID);
         if (readingsByIDandSerial.length != 0){
-          setLineData(FormatUseDeviceID(serialNumber,readingsByIDandSerial));
+          setLineData(FormatUseDeviceID(deviceID,readingsByIDandSerial));
           setNoReadingsForDeviceID(false);
         }else{
           setNoReadingsForDeviceID(true);
@@ -101,9 +113,8 @@ function LineChart(){
     async function changeSerialNumber(e: any) {
       setSerial_Number(e.target.value);
       // update the device id list
-      getDeviceIDs();
+
       // call the function that gets the query we want
-      queryReadings();
     }
 
     async function getDeviceIDs(){
@@ -119,7 +130,6 @@ function LineChart(){
 
     function changedeviceID(e: any) {
       setdeviceID(e.target.value);
-      queryReadings();
     }
 
 
@@ -128,7 +138,7 @@ function LineChart(){
           <div className="container mt-5">
               <h2>Smarthome usage</h2>
               <Chart
-              width={'700px'}
+              width={'1000px'}
               height={'410px'}
               chartType="LineChart"
               loader={<div>Loading Chart</div>}
