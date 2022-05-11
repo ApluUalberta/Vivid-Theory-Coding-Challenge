@@ -8,6 +8,8 @@ import UseAggregateReadings from '../hooks/UseAggregateReadings';
 import UseSerialNumGroups from '../hooks/UseSerialNumGroups';
 import UseDeviceIDGroups from '../hooks/UseDeviceIDGroups';
 import UseDeviceID from '../hooks/UseDeviceID';
+
+import FormatAggregateReadings from '../formatting/FormatAggregateReadings';
 // Dropdown should be ALL, then others.
 // Dropdown id should be ALL, then others.
 
@@ -74,33 +76,13 @@ function LineChart(){
           listOfReadings.push(await UseAggregateReadings(obj));
         }
         console.log(listOfReadings);
-        // format the readings and append to line data
-        const aggregatedFormattedData: any[] = [];
-        const formattedData: any[] = ["x"];
-        // Loop over the labels
-        for(var i = 1; i < serialNumberGroups.length; i++) {
-          var obj = serialNumberGroups[i];
-          formattedData.push(obj);
-        }
-        // Push the labels
-        aggregatedFormattedData.push(formattedData);
-        
-        // iterate over the list of readings columnwise.
-        for (var i = 0; i < 100; i++){
-          // create a list
-          const nestedList: any[] = [i];
-          for (var j = 0; j < listOfReadings.length; j++){
-            //A[j][i]
-            nestedList.push(listOfReadings[j][i].Wattage);
 
-          }
-          // Push to big list
-          aggregatedFormattedData.push(nestedList);
-        }
-        setLineData(aggregatedFormattedData);
+        setLineData( FormatAggregateReadings(serialNumberGroups, listOfReadings));
 
       }else if (serialNumber != "All" && deviceID == "All"){
         // call readings
+
+
       }else if (serialNumber != "All" && deviceID != "All"){
         // call UseDeviceID
       }
