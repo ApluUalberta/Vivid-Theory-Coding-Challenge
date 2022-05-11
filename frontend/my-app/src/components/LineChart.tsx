@@ -3,6 +3,11 @@ import Chart from 'react-google-charts';
 import { useQuery, gql} from "@apollo/client";
 import { LOAD_DEVICES } from '../GraphQL/Queries';
 import Dropdown from './../dropdown/Dropdown';
+
+import UseAggregateReadings from '../hooks/UseAggregateReadings';
+import UseSerialNumGroups from '../hooks/UseSerialNumGroups';
+import UseDeviceIDGroups from '../hooks/UseDeviceIDGroups';
+import UseDeviceID from '../hooks/UseDeviceID';
 // Dropdown should be ALL, then others.
 // Dropdown id should be ALL, then others.
 
@@ -48,9 +53,11 @@ function LineChart(){
         // Do not plot if the data is null
 
         // Set the default id list
-        setserialNumberGroups(serialNumGroups());
-        console.log(serialNumberGroups);
-
+        (async () => {
+          const serialNumberGroups = await UseSerialNumGroups();
+          setserialNumberGroups(serialNumberGroups);
+          console.log(serialNumberGroups);
+        })();
 
 
     },[]);
@@ -76,110 +83,5 @@ function LineChart(){
 
 }
 
-
-
-export function aggregateReadings(Serial_Number:String) {
-
-  useEffect(() => {
-    // Send a request to the backend endpoint to gather data
-    // The first is to get the device names as these datapoints line up
-    // The second is to get the data series for each and put them into the corresponding column
-    // Once completed, the items should plot themselves accordingly
-    // Do not plot if the data is null
-    const [aggregateReadings, setAggregateReadings] = useState([]);
-
-    const AGGREGATE_READINGS = `
-    {
-      reading(Serial_Number: ${Serial_Number}){
-        Serial_Number
-        DateTime
-        Device_ID
-        Wattage
-      }
-    }
-    `
-    fetch('http://localhost:4000/graphql',{
-      method: "GET",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({AGGREGATE_READINGS})
-    }).then(response => response.json())
-    .then(data => setAggregateReadings(data.data.reading));
-  
-  },[]);
-
-  return aggregateReadings;
-}
-
-export function serialNumGroups(){
-  const [serialNumberList, setserialNumberList] = useState([]);
-  useEffect(() => {
-    const SERIAL_NUMBERS = `
-    {
-      serialnumbergroups(LIMIT: 10){
-        Serial_Number
-      }
-    }
-    `
-
-    fetch('http://localhost:4000/graphql',{
-      method: "GET",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({SERIAL_NUMBERS})
-    }).then(response => response.json())
-    .then(data => setserialNumberList(data.data.serialnumbergroups));
-
-  },[]);
-
-  return serialNumberList;
-}
-
-export function deviceIDGroups(Serial_Number: String){
-  const [deviceIDList, setdeviceIDList] = useState([]);
-  useEffect(() => {
-    const DEVICE_GROUP = `
-    {
-      deviceidgroups(Serial_Number: ${Serial_Number}){
-        Device_ID
-      }
-    }
-    `
-
-    fetch('http://localhost:4000/graphql',{
-      method: "GET",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({DEVICE_GROUP})
-    }).then(response => response.json())
-    .then(data => setdeviceIDList(data.data.deviceidgroups));
-
-  },[]);
-
-  return deviceIDList;
-}
-
-export function deviceID(Serial_Number: String, Device_ID: String){
-  const [deviceIDList, setdeviceIDList] = useState([]);
-  useEffect(() => {
-    const DEVICE_ID = `
-    {
-      deviceid(Serial_Number: ${Serial_Number}, Device_ID: ${Device_ID}){
-        Serial_Number
-        DateTime
-        Device_ID
-        Wattage
-      }
-    }
-    `
-
-    fetch('http://localhost:4000/graphql',{
-      method: "GET",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({DEVICE_ID})
-    }).then(response => response.json())
-    .then(data => setdeviceIDList(data.data.deviceid));
-
-  },[]);
-
-  return deviceIDList;
-}
 
 export default LineChart;
