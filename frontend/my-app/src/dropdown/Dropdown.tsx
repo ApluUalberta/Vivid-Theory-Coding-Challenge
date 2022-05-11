@@ -1,6 +1,6 @@
 import {useState} from "react";
 // Should just accept a list of strings (for our use cases, the Device IDs and serial numbers)
-function Dropdown(options: String[]) {
+function Dropdown(options: any[]) {
     const [isActive, setIsActive] = useState(false);
     const [selected, setSelected] = useState("");
     return (

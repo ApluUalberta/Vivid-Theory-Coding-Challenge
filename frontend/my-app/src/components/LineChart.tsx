@@ -54,13 +54,11 @@ function LineChart(){
 
         // Set the default id list
         (async () => {
-          const serialNumberGroups = await UseSerialNumGroups();
-          setserialNumberGroups(serialNumberGroups);
-          console.log(serialNumberGroups);
+          const serialNumberGroupies = await UseSerialNumGroups();
+          // turn list of json into list of
+          setserialNumberGroups(serialNumberGroupies);
         })();
-
-
-    },[]);
+    },[serialNumberGroups]);
 
 
 
