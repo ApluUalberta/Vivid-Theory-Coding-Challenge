@@ -6,6 +6,14 @@
 - An existing version of Node on your system (v16.13.0)
 - An existing installation of npm on your system (v8.9.0)
 ```
+## Using App via deployed Pages: The frontend pages are deployed here
+https://apluualberta.github.io/Vivid-Theory-Coding-Challenge/
+### Step 1: Deploy backend
+- Consult Deployment - Step 2
+
+### Step 2: Use the app!
+- Consult Deployment - Step 4
+
 ## Deployment:
 ### Step 1: Clone the repository and go into the directory
 ```
@@ -21,7 +29,6 @@ $ cd Vivid-Theory-Coding-Challenge
 $ cd backend
 $ npm i
 $ npm start
-
 ```
 #### The backend should have the following url: http://127.0.0.1:4000/graphql
 
@@ -52,6 +59,39 @@ $ npm start
 
 5. Circling back, lets select ALL serial numbers to get aggregate readings:
 ![All smarthomes](./docpics/Allreadings.PNG)
+
+### Production Deployment instructions
+* Deployment methods were done using Azure, though I ran into issues with opening up the instance ports
+1. Create a virtual linux machine instance as done here:
+https://www.youtube.com/watch?v=3Ecm90UZHv0
+2. Install the application
+Node Installation with dependencies
+```
+$ curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+$ sudo apt-get install -y nodejs
+$ sudo apt-get install -y build-essential
+```
+Now, you should have Node and npm. We can then clone
+```
+$ git clone https://github.com/ApluUalberta/Vivid-Theory-Coding-Challenge
+```
+Now, follow Deployment - Steps 2 and 3. You may need to keep using npm i on the missing dependencies.
+After the dependencies are installed, run the backend with `npm start` within the `./Vivid-Theory-Coding-Challenge/backend` folder. 
+
+Now, we need to initialize the proper react port and host addresses
+```
+$ export PORT=80
+$ export HOSTNAME=<INSTANCE_IP>
+$ npm start
+```
+
+3. After the instance is created, Navigate to the networks tab under the instance window:
+![Network tab](./docpics/networktab.PNG)
+4. These are the security settings used:
+![Security settings](./docpics/security.PNG)
+5. Access the application in your browser at (https://<AZURE_IP>:80)
+
+
 
 ## Things to note for optimization and improvement
 - The application queries the database for readings every time, these could easily be stored into a cache
